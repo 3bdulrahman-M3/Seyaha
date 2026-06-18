@@ -1,0 +1,844 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-4a5b-8c9d-e0f1a2b3c4d5",
+		"name": "SeYaha - Smart Tourism Platform API",
+		"description": "The complete API collection for all modules of the SeYaha Smart Tourism Platform.\n\nتوثيق شامل لجميع نقاط النهاية (Endpoints) الخاصة بمنصة سياحة الذكية.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Authentication | المصادقة",
+			"item": [
+				{
+					"name": "Register | تسجيل مستخدم جديد",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/auth/register",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"traveler@test.com\",\n  \"password\": \"123456\",\n  \"role\": \"User\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Login | تسجيل الدخول",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('token', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/auth/login",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"traveler@test.com\",\n  \"password\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Get Me | جلب بياناتي الشخصية",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/auth/me"
+					}
+				},
+				{
+					"name": "Update Details | تحديث البيانات الشخصية",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/auth/updatedetails",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Name\",\n  \"email\": \"newemail@test.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Forgot Password | نسيت كلمة المرور",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/auth/forgotpassword",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"traveler@test.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Verify OTP | التحقق من الرمز",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.resetToken) {",
+									"    pm.collectionVariables.set('resetToken', jsonData.resetToken);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/auth/verifyotp",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"traveler@test.com\",\n  \"otp\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Reset Password | إعادة تعيين كلمة المرور",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/auth/resetpassword",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resetToken\": \"{{resetToken}}\",\n  \"newPassword\": \"newpassword123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Users & Tour Guides | المستخدمين والمرشدين",
+			"item": [
+				{
+					"name": "Get All Users (Admin) | جلب جميع المستخدمين",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/users"
+					}
+				},
+				{
+					"name": "Get All Tour Guides | جلب المرشدين السياحيين",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/users/tour-guides"
+					}
+				},
+				{
+					"name": "Delete User (Admin) | حذف مستخدم",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/users/{{user_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Companies | الشركات",
+			"item": [
+				{
+					"name": "Get All Companies (Public) | جلب جميع الشركات",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/companies"
+					}
+				},
+				{
+					"name": "Get Single Company | جلب شركة محددة",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/companies/{{company_id}}"
+					}
+				},
+				{
+					"name": "Create Company | إنشاء شركة",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('company_id', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/companies",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"SeYaha Tours\",\n  \"category\": \"Tours\",\n  \"description\": \"Premium tours across Egypt.\",\n  \"address\": \"123 Nile St, Cairo\",\n  \"phone\": \"+20123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Update Company | تعديل بيانات الشركة",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/companies/{{company_id}}",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"SeYaha Tours Updated\",\n  \"description\": \"Updated description for the company.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Approve/Reject Company (Admin) | الموافقة على الشركة",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/companies/{{company_id}}/status",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"approved\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Delete Company | حذف شركة",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/companies/{{company_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Services | الخدمات",
+			"item": [
+				{
+					"name": "Get All Services (Paginated) | جلب الخدمات",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/services?page=1&limit=10&search=",
+							"host": ["{{base_url}}"],
+							"path": ["api", "services"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Results per page"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"description": "Search by title"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Single Service | جلب خدمة محددة",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/services/{{service_id}}"
+					}
+				},
+				{
+					"name": "Create Service | إضافة خدمة جديدة",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('service_id', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/services",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Cairo Night Tour\",\n  \"description\": \"Explore the beauty of Cairo by night, visiting the Pyramids and Old Cairo.\",\n  \"price\": 50,\n  \"location\": \"Cairo\",\n  \"category\": \"Tours\",\n  \"company\": \"{{company_id}}\",\n  \"images\": [\n    \"image_url_1\",\n    \"image_url_2\"\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Update Service | تعديل خدمة",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/services/{{service_id}}",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Cairo Night Tour - Updated\",\n  \"price\": 75\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Delete Service | حذف خدمة",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/services/{{service_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "5. Bookings | الحجوزات",
+			"item": [
+				{
+					"name": "My Bookings | حجوزاتي",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/bookings/my-bookings"
+					}
+				},
+				{
+					"name": "Company Bookings (Manager) | حجوزات الشركة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/bookings/company-bookings"
+					}
+				},
+				{
+					"name": "All Bookings (Admin/TourGuide) | كل الحجوزات",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/bookings/all-bookings"
+					}
+				},
+				{
+					"name": "Get Single Booking | جلب حجز محدد",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/bookings/{{booking_id}}"
+					}
+				},
+				{
+					"name": "Create Booking | طلب حجز جديد",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.data && jsonData.data._id) {",
+									"    pm.collectionVariables.set('booking_id', jsonData.data._id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/bookings",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"service\": \"{{service_id}}\",\n  \"tourGuide\": \"{{user_id}}\",\n  \"dates\": {\n    \"startDate\": \"2026-10-01\",\n    \"endDate\": \"2026-10-05\"\n  },\n  \"notes\": \"Special request: Window seat if possible.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Confirm Booking (Manager/Admin) | تأكيد الحجز",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/bookings/{{booking_id}}",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"confirmed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Cancel Booking | إلغاء الحجز",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/bookings/{{booking_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "6. Reviews | التقييمات",
+			"item": [
+				{
+					"name": "Get Reviews for Service | جلب تقييمات خدمة",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/services/{{service_id}}/reviews"
+					}
+				},
+				{
+					"name": "Add Review | إضافة تقييم",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/reviews",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"service\": \"{{service_id}}\",\n  \"rating\": 5,\n  \"comment\": \"Excellent experience!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				},
+				{
+					"name": "Delete Review | حذف تقييم",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/reviews/{{review_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "7. Favorites | المفضلة",
+			"item": [
+				{
+					"name": "Get My Favorites | جلب المفضلة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/favorites"
+					}
+				},
+				{
+					"name": "Add to Favorites | إضافة للمفضلة",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/favorites/{{service_id}}"
+					}
+				},
+				{
+					"name": "Remove from Favorites | إزالة من المفضلة",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/favorites/{{service_id}}"
+					}
+				}
+			]
+		},
+		{
+			"name": "8. Chat & Messages | المحادثات والرسائل",
+			"item": [
+				{
+					"name": "Get Chat History | سجل المحادثة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": "{{base_url}}/api/messages/{{booking_id}}"
+					}
+				},
+				{
+					"name": "Send Message | إرسال رسالة",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": "{{base_url}}/api/messages",
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"booking\": \"{{booking_id}}\",\n  \"content\": \"Is the pickup included?\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "9. Notifications | الإشعارات",
+			"item": [
+				{
+					"name": "Get Notifications | جلب الإشعارات",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/api/notifications"
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [""]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [""]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://se-yaha.vercel.app",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "company_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "service_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "booking_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "review_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "resetToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

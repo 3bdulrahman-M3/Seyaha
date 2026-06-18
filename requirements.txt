@@ -1,0 +1,135 @@
+Smart Tourism Platform - Final Documentation (MVP بدون دفع)
+
+Overview:
+منصة سياحية ذكية (Web + Mobile) تجمع كل الخدمات السياحية في مكان واحد:
+- فنادق
+- عقارات
+- رحلات
+- سيارات
+
+هدف المنصة:
+تسهيل الحجز والتواصل بين المستخدمين والشركات بدون نظام دفع (MVP).
+
+--------------------------------------------------
+
+User Roles:
+
+Admin:
+- إدارة المستخدمين
+- إدارة الشركات والموافقة عليها
+- متابعة التقارير والتقييمات
+- متابعة النظام بالكامل
+
+Manager:
+- تسجيل الشركة
+- إدارة الخدمات (إضافة / تعديل / حذف)
+- إدارة الحجوزات (قبول / رفض)
+- التواصل مع المستخدمين
+
+Tour Guide:
+- إدارة الرحلات
+- تحديث حالة الرحلة
+- التواصل مع السياح
+
+User:
+- تسجيل حساب
+- البحث والتصفية
+- طلب حجز
+- إلغاء الحجز
+- التقييم
+- التواصل مع الشركات
+
+--------------------------------------------------
+
+Booking System (بدون دفع):
+
+Workflow:
+1. المستخدم يعمل طلب حجز
+2. المدير يقبل أو يرفض
+3. يتم فتح شات بينهم
+4. يتم الاتفاق خارج المنصة
+
+Statuses:
+- pending
+- confirmed
+- rejected
+- cancelled
+- completed
+
+--------------------------------------------------
+
+Core Features:
+
+- Search & Filter (سعر - موقع - تقييم)
+- Booking System
+- Reviews & Ratings
+- Chat System
+- Notifications
+- Google Maps Integration
+
+--------------------------------------------------
+
+Smart Features:
+
+- Recommendation System
+- Weather Integration
+- AI Chatbot
+
+--------------------------------------------------
+
+Security:
+
+- JWT Authentication
+- Role-based Authorization
+- Data Validation
+
+--------------------------------------------------
+
+Database Models:
+
+User:
+name, email, password, role
+
+Company:
+name, category, owner, approved
+
+Service:
+title, description, price, location
+
+Booking:
+userId, serviceId, status, dates, notes
+
+Review:
+userId, serviceId, rating, comment
+
+--------------------------------------------------
+
+Tech Stack:
+
+- Node.js
+- Express
+- MongoDB Atlas
+- Socket.io
+
+--------------------------------------------------
+
+AI Agent Prompt:
+
+Build a backend for a Smart Tourism Platform using Node.js and MongoDB Atlas.
+
+The system should NOT include payment processing.
+
+Instead, implement a Booking Request System where:
+- Users can request bookings
+- Managers can accept or reject requests
+- Booking statuses include: pending, confirmed, rejected, cancelled, completed
+
+Include:
+- Role-based authentication (Admin, Manager, User, Tour Guide)
+- Booking system
+- Reviews and ratings
+- Real-time chat between users and managers
+- Notifications
+
+Use clean architecture and scalable folder structure.
+

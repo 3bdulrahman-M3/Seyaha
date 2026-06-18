@@ -802,7 +802,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "https://se-yaha.vercel.app",
+			"value": "https://seyaha-indol.vercel.app",
 			"type": "string"
 		},
 		{
